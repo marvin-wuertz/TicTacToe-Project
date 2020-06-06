@@ -1,5 +1,7 @@
 package de.marvin.ttt.engine;
 
+import de.marvin.ttt.gui.Frames;
+
 /**
  * @author Marvin Würtz
  * 
@@ -7,5 +9,10 @@ package de.marvin.ttt.engine;
  * TicTacToe-Project
  */
 public class Game {
-
+	Frames frames = new Frames();
+	
+	public void start() {
+		frames.startGameFrame();
+	}
+	
 }
