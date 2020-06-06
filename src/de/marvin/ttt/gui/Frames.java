@@ -53,12 +53,12 @@ public class Frames implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*if (e.getSource() == nextButton) {
+		/*if (e.getSource() == buttonName) {
 			frame.dispose();
-			Start.game.round(Start.game.getStarter());
-		} else if (e.getSource() == openButton) {
+			//TODO
+		} else if (e.getSource() == buttonName) {
 			frame.dispose();
-				Start.game.aufdecken(Start.game.realNum);
+			//TODO
 		}*/
 	}
 	
