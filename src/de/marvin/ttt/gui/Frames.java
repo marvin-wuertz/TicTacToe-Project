@@ -36,7 +36,7 @@ public class Frames implements ActionListener {
 	public void startGameFrame() {
 		frame.setLayout(null);
 		frame.setSize(200, 200);
-		frame.setTitle("Tic-Tac-Toe Setup");
+		frame.setTitle("Tic-Tac-Toe");
 		frame.setBounds(800, 200, 500, 500);
 		frame.setIconImage(gameImage.getImage());
 		frame.setVisible(true);
