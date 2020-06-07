@@ -41,12 +41,12 @@ public class Frames implements ActionListener {
 	JPanel fieldStripe_h1 = new JPanel();
 	JPanel fieldStripe_h2 = new JPanel();
 	//Icons importen
-	ImageIcon gameImage = new ImageIcon("image/gameImg.png");
-	ImageIcon setupImage = new ImageIcon("image/setupImg.png");
-	ImageIcon swapImage = new ImageIcon("image/swapImg.png");
-	ImageIcon circleImage = new ImageIcon("image/oPlayer.png");
-	ImageIcon xImage = new ImageIcon("image/xPlayer.png");
-	ImageIcon setupHeader = new ImageIcon("image/setupHeader.gif");
+	ImageIcon gameImage = new ImageIcon(Frames.class.getResource("/de/marvin/ttt/gui/images/gameImg.png"));
+	ImageIcon setupImage = new ImageIcon(Frames.class.getResource("/de/marvin/ttt/gui/images/setupImg.png"));
+	ImageIcon swapImage = new ImageIcon(Frames.class.getResource("/de/marvin/ttt/gui/images/swapImg.png"));
+	ImageIcon circleImage = new ImageIcon(Frames.class.getResource("/de/marvin/ttt/gui/images/oPlayer.png"));
+	ImageIcon xImage = new ImageIcon(Frames.class.getResource("/de/marvin/ttt/gui/images/xPlayer.png"));
+	ImageIcon setupHeader = new ImageIcon(Frames.class.getResource("/de/marvin/ttt/gui/images/setupHeader.gif")); //WICHTIG!!!
 	
 	JButton OL = new JButton("");
 	JButton OM = new JButton("");
