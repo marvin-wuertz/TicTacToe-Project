@@ -13,4 +13,10 @@ School project
 3. Make a Serverbased Tic-Tac-Toe with Roomcode
 
 # NOTE
-In progress
+Its just a school project
+
+# Checklist
+- GUI -> Done
+- Engine -> In progress
+- KI -> In progress
+- Serverbased -> i dont know if i will make it
