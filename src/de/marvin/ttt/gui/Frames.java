@@ -1,6 +1,7 @@
 package de.marvin.ttt.gui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -18,11 +21,19 @@ import javax.swing.border.EmptyBorder;
  * TicTacToe-Project
  */
 public class Frames implements ActionListener {
-	public JFrame frame = new JFrame(); //Fenster
+	private JFrame frame = new JFrame(); //Fenster
 	private JPanel gamePane; //Haupt panel ->Liegt auf dem frame. Auf diesem panel liegen der Links und rechts panel
+	
+	private JPanel setupPane;
+	private JTextField roomCode;
+	
 	//Bild Container
 	JLabel swapImgContainer = new JLabel("");
 	JLabel currentPlayerContainer = new JLabel("");
+	
+	//game panel
+	JPanel leftGamePanel = new JPanel();
+	JPanel rightGamePanel = new JPanel();
 	
 	//Feldstreifen
 	JPanel fieldStripe_v1 = new JPanel();
@@ -35,6 +46,7 @@ public class Frames implements ActionListener {
 	ImageIcon swapImage = new ImageIcon("image/swapImg.png");
 	ImageIcon circleImage = new ImageIcon("image/oPlayer.png");
 	ImageIcon xImage = new ImageIcon("image/xPlayer.png");
+	ImageIcon setupHeader = new ImageIcon("image/setupHeader.gif");
 	
 	JButton OL = new JButton("");
 	JButton OM = new JButton("");
@@ -46,86 +58,200 @@ public class Frames implements ActionListener {
 	JButton UM = new JButton("");
 	JButton UR = new JButton("");
 	
+	
+	JPanel header = new JPanel();
+	JLabel headerImage = new JLabel("");
+	JPanel leftSetupPanel = new JPanel();
+	JButton onlineButton = new JButton("Start");
+	JLabel onlineLabel = new JLabel("Online");
+	JPanel rightSetupPanel = new JPanel();
+	JButton twoPlayerButton = new JButton("1vs1");
+	JButton botButton = new JButton("Bot");
+	JLabel offlineLabel = new JLabel("Offline");
+	
+	
+	public Frames() {
+		init();
+	}
+	
+	public void init() {
+		setupGameFrame();
+		setupSetupFrame();
+		playScene(2);
+	}
+	
+	//Smoother uebergang zwischen dem Game & Setup panel
 	public void playScene(int scene) {
-		
-	}
-	
-	public void updateGameFrame(int addField, int player) {
-
-	}
-	
-	public void startGameFrame() {	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Funktion des Schließbuttons -> Beendet die Applikation
-		frame.setBounds(100, 100, 450, 324); //Position und größe des JFrames
 		frame.setResizable(false); //Feste Größe -> Nicht resizeable
-		frame.setTitle("Tic-Tac-Toe"); //Fenster Titel
+		if(scene == 1) {
+			frame.setBounds(frame.getX(), frame.getY(), 450, 324); //Position und größe des JFrames
+			frame.setTitle("Tic-Tac-Toe"); //Fenster Titel
+			frame.setIconImage(gameImage.getImage()); //Image in der Taskleiste
+			frame.setContentPane(gamePane); //"Hauptpanel" in Frame einfügen
+		} else {
+			frame.setIconImage(setupImage.getImage()); //Image in der Taskleiste
+			frame.setBounds(100, 100, 540, 500); //Position und größe des JFrames
+			frame.setTitle("Tic-Tac-Toe Setup"); //Fenster Titel
+			frame.setContentPane(setupPane); //"Hauptpanel" in Frame einfügen
+		}
+		frame.setVisible(true);
+	}
+	
+	/**
+	 * Nach jedem zug wird das uebergebene Feld mit dem passenden icon versehen
+	 */
+	public void updateGameFrame(int field, int player) {
+		//TODO
+	}
+	
+	/**
+	 * Hier wird das GamePanel initialisiert jedoch nicht ins JFrame eingebunden -> Wechseln der scenen(Game/Setup) ohne neues Fenster erstellen moeglich
+	 */
+	public void setupGameFrame() {	
+		
 		gamePane = new JPanel(); //Haupt Container/Panel -> Links/Rechts panel liegen auf einem haupt panel
 		gamePane.setBorder(new EmptyBorder(5, 5, 5, 5)); //Umrandung vom Haupt panel
-		frame.setContentPane(gamePane); //"Hauptpanel" in Frame einfügen
 		gamePane.setLayout(null);
-		frame.setIconImage(gameImage.getImage()); //Image in der Taskleiste
 		
-		//linkes panel
-		JPanel leftPanel = new JPanel();
 		//Hintergrund position und größe
-		leftPanel.setBackground(Color.DARK_GRAY);
-		leftPanel.setBounds(0, 0, 148, 295);
+		leftGamePanel.setBackground(Color.DARK_GRAY);
+		leftGamePanel.setBounds(0, 0, 148, 295);
 		//Zum haupt panel hinzufügen
-		gamePane.add(leftPanel);
-		leftPanel.setLayout(null);
+		gamePane.add(leftGamePanel);
+		leftGamePanel.setLayout(null);
 		
 		//Imagecontainer auf der Linken seite Initialisieren
-		initImageContainer();
+		initGameImageContainer();
 		//Container hinzufügen
-		leftPanel.add(swapImgContainer);
-		leftPanel.add(currentPlayerContainer);
+		leftGamePanel.add(swapImgContainer);
+		leftGamePanel.add(currentPlayerContainer);
 		
-		//Rechtes panel
-		JPanel rightPanel = new JPanel();
-		rightPanel.setBackground(Color.GRAY);
-		rightPanel.setBounds(147, 0, 297, 295);
-		gamePane.add(rightPanel);
-		rightPanel.setLayout(null);
+		rightGamePanel.setBackground(Color.GRAY);
+		rightGamePanel.setBounds(147, 0, 297, 295);
+		gamePane.add(rightGamePanel);
+		rightGamePanel.setLayout(null);
 		
 		//Feldstreifen initialisieren
 		initField();
 		//Feldstreifen zum rechten Panel hinzufügen
-		rightPanel.add(fieldStripe_v1);
-		rightPanel.add(fieldStripe_v2);
-		rightPanel.add(fieldStripe_h1);
-		rightPanel.add(fieldStripe_h2);
+		rightGamePanel.add(fieldStripe_v1);
+		rightGamePanel.add(fieldStripe_v2);
+		rightGamePanel.add(fieldStripe_h1);
+		rightGamePanel.add(fieldStripe_h2);
 		
 		//Buttons initialisieren
-		initButtons();
+		initGameButtons();
 		//Buttons zum rechten "GameFrame" hinzufügen
-		rightPanel.add(OL);
-		rightPanel.add(OM);
-		rightPanel.add(OR);
-		rightPanel.add(ML);
-		rightPanel.add(UL);
-		rightPanel.add(MM);
-		rightPanel.add(MR);
-		rightPanel.add(UM);
-		rightPanel.add(UR);
+		rightGamePanel.add(OL);
+		rightGamePanel.add(OM);
+		rightGamePanel.add(OR);
+		rightGamePanel.add(ML);
+		rightGamePanel.add(UL);
+		rightGamePanel.add(MM);
+		rightGamePanel.add(MR);
+		rightGamePanel.add(UM);
+		rightGamePanel.add(UR);
 		
-		frame.setVisible(true); //Frame nach initialisieren von allem Sichtbar machen
+		//frame.setVisible(true); //Frame nach initialisieren von allem Sichtbar machen
 	}
 	
-	public void startSetupFrame() {
-		//TODO
+	/**
+	 * Hier wird das SetupPanel initialisiert jedoch nicht ins JFrame eingebunden -> Wechseln der scenen(Game/Setup) ohne neues Fenster erstellen moeglich
+	 */
+	public void setupSetupFrame() {
+
+		setupPane = new JPanel(); //Haupt Container/Panel -> Links/Rechts panel liegen auf einem haupt panel
+		setupPane.setBorder(new EmptyBorder(5, 5, 5, 5)); //Umrandung vom Haupt panel
+		setupPane.setLayout(null);
+		
+		//Header panel hinzufuegen -> In dieses kommt ein JLabel worin eine gif laueft -> "header"
+		header.setBounds(0, 0, 540, 170);
+		setupPane.add(header);
+		header.setLayout(null);
+		//Gif hinzufuegen
+		headerImage.setIcon(setupHeader);
+		headerImage.setBounds(0, -16, 540, 199);
+		header.add(headerImage);
+		
+		//Linke seite
+		leftSetupPanel.setBackground(Color.LIGHT_GRAY);
+		leftSetupPanel.setBounds(0, 169, 196, 302);
+		setupPane.add(leftSetupPanel);
+		leftSetupPanel.setLayout(null);
+		
+		//Textfeld erstellen
+		roomCode = new JTextField();
+		//Schrift festlegen und hintergrund sowie text allignment
+		roomCode.setFont(new Font("X-Files", Font.BOLD, 12));
+		roomCode.setBackground(Color.GRAY);
+		roomCode.setHorizontalAlignment(SwingConstants.CENTER);
+		//Predef. text
+		roomCode.setText("Roomcode here");
+		//Position größe und hinzufügen
+		roomCode.setBounds(26, 95, 145, 43);
+		leftSetupPanel.add(roomCode);
+		roomCode.setColumns(10);
+		
+		//Knopf um onlinespiel zu starten || In arbeit
+		onlineButton.setForeground(Color.BLACK);
+		onlineButton.setFont(new Font("X-Files", Font.BOLD, 12));
+		onlineButton.setBackground(Color.GRAY);
+		onlineButton.setBounds(41, 181, 118, 44);
+		onlineButton.addActionListener(this);
+		leftSetupPanel.add(onlineButton);
+		
+		//Positionieren des textes "Online" || Ueberschrifft linke seite
+		onlineLabel.setForeground(Color.RED);
+		onlineLabel.setFont(new Font("Magneto", Font.BOLD, 17));
+		onlineLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		onlineLabel.setBounds(41, 22, 118, 35);
+		leftSetupPanel.add(onlineLabel);
+		
+		//Rechte seite editieren gleiches prinzip wie linke seite
+		rightSetupPanel.setBackground(Color.GRAY);
+		rightSetupPanel.setBounds(196, 169, 338, 302);
+		setupPane.add(rightSetupPanel);
+		rightSetupPanel.setLayout(null);
+		
+		//Localer multiplayer button
+		twoPlayerButton.setForeground(Color.BLACK);
+		twoPlayerButton.setBackground(Color.LIGHT_GRAY);
+		twoPlayerButton.setFont(new Font("X-Files", Font.BOLD, 12));
+		twoPlayerButton.setBounds(115, 95, 118, 44);
+		twoPlayerButton.addActionListener(this);
+		rightSetupPanel.add(twoPlayerButton);
+		
+		//Localer singleplayer button -> gegen KI
+		botButton.setForeground(Color.BLACK);
+		botButton.setFont(new Font("X-Files", Font.BOLD, 12));
+		botButton.setBackground(Color.LIGHT_GRAY);
+		botButton.setBounds(115, 181, 118, 44);
+		botButton.addActionListener(this);
+		rightSetupPanel.add(botButton);
+		
+		//Ueberschrifft "Offline" rechte seite
+		offlineLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		offlineLabel.setForeground(Color.RED);
+		offlineLabel.setFont(new Font("Magneto", Font.BOLD, 17));
+		offlineLabel.setBounds(115, 26, 118, 35);
+		rightSetupPanel.add(offlineLabel);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == OL) {
 			System.out.print("Oben Links");
+		} else if(e.getSource() == twoPlayerButton) {
+			playScene(1);
 		}
 	}
 	
+	//Koennte man auch weglassen bzw in die setupGameFrame() direkt reintuen
 	/**
 	 * Die Labels welche die Bilder halten werden die Positionen sowie größe und Bild zugeordnet
 	 */
-	public void initImageContainer() {
+	public void initGameImageContainer() {
 		//LabelIcon setzen -> Designbild
 		swapImgContainer.setIcon(swapImage);
 		//Position und größe festlegen
@@ -158,7 +284,7 @@ public class Frames implements ActionListener {
 	 * Die Buttons vom Spielfeld werden die Positionen sowie größe und Hintergrundfarbe zugeordnet.
 	 * Die border wird entfernt vom Button um ihn "Unsichtbar" zu machen und ein ActionListener wird hinzugefügt.
 	 */
-	public void initButtons() {
+	public void initGameButtons() {
 		//Farbe für den Vordergrund -> Gleich wie die hintergrundfarbe vom container
 		OL.setForeground(Color.GRAY);
 		//Farbe für den Hintergrund -> Gleich wie die hintergrundfarbe vom container

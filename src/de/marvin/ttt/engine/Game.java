@@ -12,7 +12,8 @@ public class Game {
 	Frames frames = new Frames();
 	
 	public void start() {
-		frames.startGameFrame();
+		//frames.startSetupFrame();
+		
 	}
 	
 }
