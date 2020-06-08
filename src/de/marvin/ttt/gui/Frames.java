@@ -9,10 +9,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import de.marvin.ttt.engine.Game;
 
 /**
  * @author Marvin Würtz
@@ -69,8 +72,9 @@ public class Frames implements ActionListener {
 	JButton botButton = new JButton("Bot");
 	JLabel offlineLabel = new JLabel("Offline");
 	
-	
-	public Frames() {
+	private Game gameInstance;
+	public Frames(Game game) {
+		gameInstance = game;
 		init();
 	}
 	
@@ -101,8 +105,47 @@ public class Frames implements ActionListener {
 	/**
 	 * Nach jedem zug wird das uebergebene Feld mit dem passenden icon versehen
 	 */
-	public void updateGameFrame(int field, int player) {
+	public void updateGameFrame(int pos, int player) {
 		//TODO
+		ImageIcon playerIcon;
+		ImageIcon nextPlayerIcon;
+		if(player == 0) {//0 = X
+			playerIcon = xImage;
+			nextPlayerIcon = circleImage;
+		} else {
+			playerIcon = circleImage;
+			nextPlayerIcon = xImage;
+		}
+			switch (pos) {
+			case 0:
+				OL.setIcon(playerIcon);
+				break;
+			case 1:
+				OM.setIcon(playerIcon);
+				break;
+			case 2:
+				OR.setIcon(playerIcon);
+				break;
+			case 3:
+				ML.setIcon(playerIcon);
+				break;
+			case 4:
+				MM.setIcon(playerIcon);
+				break;
+			case 5:
+				MR.setIcon(playerIcon);
+				break;
+			case 6:
+				UL.setIcon(playerIcon);
+				break;
+			case 7:
+				UM.setIcon(playerIcon);
+				break;
+			case 8:
+				UR.setIcon(playerIcon);
+				break;
+			}
+			currentPlayerContainer.setIcon(nextPlayerIcon);
 	}
 	
 	/**
@@ -241,9 +284,29 @@ public class Frames implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == OL) {
-			System.out.print("Oben Links");
+			gameInstance.turn(0);
+		} else if(e.getSource() == OM) {
+			gameInstance.turn(1);
+		} else if(e.getSource() == OR) {
+			gameInstance.turn(2);
+		} else if(e.getSource() == ML) {
+			gameInstance.turn(3);
+		} else if(e.getSource() == MM) {
+			gameInstance.turn(4);
+		} else if(e.getSource() == MR) {
+			gameInstance.turn(5);
+		} else if(e.getSource() == UL) {
+			gameInstance.turn(6);
+		} else if(e.getSource() == UM) {
+			gameInstance.turn(7);
+		} else if(e.getSource() == UR) {
+			gameInstance.turn(8);
 		} else if(e.getSource() == twoPlayerButton) {
 			playScene(1);
+		} else if(e.getSource() == onlineButton) {
+			JOptionPane.showMessageDialog(frame, "Coming Soon");
+		} else if(e.getSource() == botButton) {
+			JOptionPane.showMessageDialog(frame, "Coming Soon");
 		}
 	}
 	
@@ -296,7 +359,7 @@ public class Frames implements ActionListener {
 		OL.setFocusable(false);
 		//ActionListener initialisieren -> Klickevent
 		OL.addActionListener(this);
-		
+
 		OM.setForeground(Color.GRAY);
 		OM.setBackground(Color.GRAY);
 		OM.setBounds(111, 11, 80, 80);
