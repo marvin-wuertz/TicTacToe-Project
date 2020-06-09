@@ -14,7 +14,7 @@ public class Game {
 
 	public void turn(int pos) {
 		if (matchfield[pos] == null) {
-			frames.updateGameFrame(pos, player);
+			frames.updateGameframe(pos, player);
 			if (player == 0) {
 				matchfield[pos] = "X";
 				player = 1;
