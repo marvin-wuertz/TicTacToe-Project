@@ -1,5 +1,7 @@
 package de.marvin.ttt.engine;
 
+import java.awt.Color;
+
 import de.marvin.ttt.gui.Frames;
 
 /**
@@ -22,13 +24,35 @@ public class Game {
 				matchfield[pos] = "O";
 				player = 0;
 			}
-			if(checkWin()) {
+			if(checkWin() != null) {
 				System.out.println("Spiel vorbei. //TODO");
+				String temp = checkWin();
+				if(temp.equals("draw")) {
+					frames.endscreenDraw();
+				} else {
+					String[] split = temp.split(":");
+					if(split[0].equals("X")) {
+						frames.endscreen(Color.BLUE, Integer.parseInt(split[1]));
+					} else {
+						frames.endscreen(Color.RED, Integer.parseInt(split[1]));
+					}
+				}
+				//Spielfeld fuellen -> Nichts kann mehr gesetzt werden
+				for(int i = 0; i < matchfield.length; i++) {
+					if(matchfield[i] == null) {
+						matchfield[i] = "Placeholder";
+					}
+				}
 			}
 		}
 	}
 
-	private boolean checkWin() {
+	public void reset() {
+		matchfield = new String[9];
+		player = 0;
+	}
+	
+	private String checkWin() {
 		for (int i = 0; i < 8; i++) {
 			String temp = null;
 			switch (i) {
@@ -58,19 +82,17 @@ public class Game {
 				break;
 			}
 			if (temp.equals("XXX")) {
-				System.out.println("Spieler X hat gewonnen");
-				return true;
+				return "X:" + i;
 			} else if (temp.equals("OOO")) {
-				System.out.println("Spieler O hat gewonnen");
-				return true;
+				return "O:" + i;
 			}
 		}
 
 		if(isMatchfieldFull()) {
 			System.out.println("Keiner hat gewonnen");
-			return true;
+			return "draw";
 		} else {
-			return false;
+			return null;
 		}
 		
 	}

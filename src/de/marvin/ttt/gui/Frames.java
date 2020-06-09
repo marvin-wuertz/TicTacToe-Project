@@ -1,5 +1,7 @@
 package de.marvin.ttt.gui;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,6 +37,17 @@ public class Frames {
 		init();
 	}
 	
+	public void endscreen(Color color, int id) {
+		setWinnerBorder(color, id);
+		gameframe.displayEnd(); 
+		playScene(1); //Panel updaten (Neue Buttons werden nicht angezeigt)
+	}
+	
+	public void endscreenDraw() {
+		gameframe.displayEnd();
+		playScene(1);
+	}
+	
 	public JFrame getFrame() {
 		return frame;
 	}
@@ -49,6 +62,10 @@ public class Frames {
 		gameframe.updateGameFrame(pos, player);
 	}
 	
+	public void setWinnerBorder(Color color, int id) {
+		gameframe.addBorder(color, id);
+	}
+	
 	public void callTurn(int id) {
 		gameInstance.turn(id);
 	}
@@ -58,11 +75,14 @@ public class Frames {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Funktion des Schließbuttons -> Beendet die Applikation
 		frame.setResizable(false); //Feste Größe -> Nicht resizeable
 		if(scene == 1) {
+			gameInstance.reset();
+			gamePane = gameframe.getGamePane();
 			frame.setBounds(frame.getX(), frame.getY(), 450, 324); //Position und größe des JFrames
 			frame.setTitle("Tic-Tac-Toe"); //Fenster Titel
 			frame.setIconImage(gameImage.getImage()); //Image in der Taskleiste
 			frame.setContentPane(gamePane); //"Hauptpanel" in Frame einfügen
 		} else {
+			setupPane = setupframe.getSetupPane();
 			frame.setIconImage(setupImage.getImage()); //Image in der Taskleiste
 			frame.setBounds(100, 100, 540, 500); //Position und größe des JFrames
 			frame.setTitle("Tic-Tac-Toe Setup"); //Fenster Titel

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 /**
  * @author Marvin Würtz
@@ -51,6 +52,11 @@ public class Gameframe implements ActionListener {
 	ImageIcon circleImage = new ImageIcon(Gameframe.class.getResource("/de/marvin/ttt/gui/images/oPlayer.png"));
 	ImageIcon swapImage = new ImageIcon(Gameframe.class.getResource("/de/marvin/ttt/gui/images/swapImg.png"));
 	ImageIcon xImage = new ImageIcon(Gameframe.class.getResource("/de/marvin/ttt/gui/images/xPlayer.png"));
+	ImageIcon winner = new ImageIcon(Gameframe.class.getResource("/de/marvin/ttt/gui/images/trophy.png"));
+	
+	//Nach Spielende
+	JButton backBtn = new JButton("Zur\u00FCck");
+	JButton retryBtn = new JButton("Erneut Spielen");
 	
 	Frames frameInstance;
 	
@@ -129,9 +135,112 @@ public class Gameframe implements ActionListener {
 			frameInstance.callTurn(7);
 		} else if(e.getSource() == UR) {
 			frameInstance.callTurn(8);
+		} else if(e.getSource() == retryBtn) {
+			removeEnd();
+			frameInstance.playScene(1);
+		} else if(e.getSource() == backBtn) {
+			removeEnd();
+			frameInstance.playScene(2);
 		}
 	}
 
+	public void displayEnd() {
+		//retryBtn.setBorderPainted(true);
+		//retryBtn.setBorder(new LineBorder(Color.RED));
+		leftGamePanel.add(retryBtn);
+		leftGamePanel.add(backBtn);
+	}
+	
+	public void addBorder(Color color, int id) {
+		swapImgContainer.setIcon(winner);
+		if(color.equals(Color.RED)) {
+			currentPlayerContainer.setIcon(circleImage);
+		} else {
+			currentPlayerContainer.setIcon(xImage);
+		}
+			switch (id) {
+			case 0:
+				//Borders sichtbarmachen und farbe setzen
+				OL.setBorderPainted(true);
+				OM.setBorderPainted(true);
+				OR.setBorderPainted(true);
+				OL.setBorder(new LineBorder(color, 4));
+				OM.setBorder(new LineBorder(color, 4));
+				OR.setBorder(new LineBorder(color, 4));
+				break;
+			case 1:
+				ML.setBorderPainted(true);
+				MM.setBorderPainted(true);
+				MR.setBorderPainted(true);
+				ML.setBorder(new LineBorder(color, 4));
+				MM.setBorder(new LineBorder(color, 4));
+				MR.setBorder(new LineBorder(color, 4));
+				break;
+			case 2:
+				UL.setBorderPainted(true);
+				UM.setBorderPainted(true);
+				UR.setBorderPainted(true);
+				UL.setBorder(new LineBorder(color, 4));
+				UM.setBorder(new LineBorder(color, 4));
+				UR.setBorder(new LineBorder(color, 4));
+				break;
+			case 3:
+				OL.setBorderPainted(true);
+				ML.setBorderPainted(true);
+				UL.setBorderPainted(true);
+				OL.setBorder(new LineBorder(color, 4));
+				ML.setBorder(new LineBorder(color, 4));
+				UL.setBorder(new LineBorder(color, 4));
+				break;
+			case 4:
+				OM.setBorderPainted(true);
+				MM.setBorderPainted(true);
+				UM.setBorderPainted(true);
+				OM.setBorder(new LineBorder(color, 4));
+				MM.setBorder(new LineBorder(color, 4));
+				UM.setBorder(new LineBorder(color, 4));
+				break;
+			case 5:
+				OR.setBorderPainted(true);
+				MR.setBorderPainted(true);
+				UR.setBorderPainted(true);
+				OR.setBorder(new LineBorder(color, 4));
+				MR.setBorder(new LineBorder(color, 4));
+				UR.setBorder(new LineBorder(color, 4));
+				break;
+			case 6:
+				OL.setBorderPainted(true);
+				MM.setBorderPainted(true);
+				UR.setBorderPainted(true);
+				OL.setBorder(new LineBorder(color, 4));
+				MM.setBorder(new LineBorder(color, 4));
+				UR.setBorder(new LineBorder(color, 4));
+				break;
+			case 7:
+				OR.setBorderPainted(true);
+				ML.setBorderPainted(true);
+				UL.setBorderPainted(true);
+				OR.setBorder(new LineBorder(color, 4));
+				MM.setBorder(new LineBorder(color, 4));
+				UL.setBorder(new LineBorder(color, 4));
+				break;
+			}
+		}
+	
+	public void removeEnd() {
+		//Icons entfernen
+		OL.setIcon(null);
+		OM.setIcon(null);
+		OR.setIcon(null);
+		ML.setIcon(null);
+		MM.setIcon(null);
+		MR.setIcon(null);
+		UL.setIcon(null);
+		UM.setIcon(null);
+		UR.setIcon(null);
+		initFrame();
+	}
+	
 	/**
 	 * Hier wird das GamePanel initialisiert jedoch nicht ins JFrame eingebunden -> Wechseln der scenen(Game/Setup) ohne neues Fenster erstellen moeglich
 	 */
@@ -272,6 +381,18 @@ public class Gameframe implements ActionListener {
 		rightGamePanel.add(UM);
 		rightGamePanel.add(UR);
 		
-		//frame.setVisible(true); //Frame nach initialisieren von allem Sichtbar machen
+		
+		backBtn.setBackground(Color.GRAY);
+		backBtn.setForeground(Color.WHITE);
+		backBtn.setBounds(27, 261, 89, 23);
+		backBtn.setBorderPainted(false);
+		backBtn.setFocusable(false);
+		backBtn.addActionListener(this);
+		
+		retryBtn.setBackground(Color.GRAY);
+		retryBtn.setBounds(10, 227, 128, 23);
+		retryBtn.setBorderPainted(false);
+		retryBtn.setFocusable(false);
+		retryBtn.addActionListener(this);
 	}
 }
