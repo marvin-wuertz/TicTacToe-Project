@@ -91,5 +91,13 @@ public class Frames {
 		frame.setVisible(true);
 	}
 	
+	public void setBot(boolean bot) {
+		gameInstance.setBot(bot);
+	}
+	
+	public boolean isBot() { 
+		return gameInstance.getBotStatus();
+	}
+	
 }
 

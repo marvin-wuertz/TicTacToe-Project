@@ -10,9 +10,12 @@ import de.marvin.ttt.gui.Frames;
  *         Copyright 06.06.2020 Marvin Würtz TicTacToe-Project
  */
 public class Game {
-	Frames frames = new Frames(this); //Der Frameclasse die Aktuelle Instance(Object) der Klasse Game ueberliefern um auf die turn methode zugriff zu haben
+	Frames frames = new Frames(this); // Der Frameclasse die Aktuelle Instance(Object) der Klasse Game ueberliefern um
+										// auf die turn methode zugriff zu haben
 	private int player = 0; // 0=X, 1=O
 	private String[] matchfield = new String[9];
+	private boolean bot = false;
+	ComputerAI comp = new ComputerAI();
 
 	public void turn(int pos) {
 		if (matchfield[pos] == null) {
@@ -24,34 +27,74 @@ public class Game {
 				matchfield[pos] = "O";
 				player = 0;
 			}
-			if(checkWin() != null) {
+			if (checkWin() != null) {
 				System.out.println("Spiel vorbei. //TODO");
 				String temp = checkWin();
-				if(temp.equals("draw")) {
+				if (temp.equals("draw")) {
 					frames.endscreenDraw();
 				} else {
 					String[] split = temp.split(":");
-					if(split[0].equals("X")) {
+					if (split[0].equals("X")) {
 						frames.endscreen(Color.BLUE, Integer.parseInt(split[1]));
 					} else {
 						frames.endscreen(Color.RED, Integer.parseInt(split[1]));
 					}
 				}
-				//Spielfeld fuellen -> Nichts kann mehr gesetzt werden
-				for(int i = 0; i < matchfield.length; i++) {
-					if(matchfield[i] == null) {
+				// Spielfeld fuellen -> Nichts kann mehr gesetzt werden
+				for (int i = 0; i < matchfield.length; i++) {
+					if (matchfield[i] == null) {
 						matchfield[i] = "Placeholder";
 					}
 				}
 			}
+			if (checkWin() == null) {
+				if (bot == true) {
+					botTurn();
+				}
+			}
 		}
+	}
+
+	public void botTurn() {
+		int place = comp.getField(matchfield);
+		matchfield[place] = "O";
+		player = 0;
+		frames.updateGameframe(place, 1);
+		if (checkWin() != null) {
+			System.out.println("Spiel vorbei. //TODO");
+			String temp = checkWin();
+			if (temp.equals("draw")) {
+				frames.endscreenDraw();
+			} else {
+				String[] split = temp.split(":");
+				if (split[0].equals("X")) {
+					frames.endscreen(Color.BLUE, Integer.parseInt(split[1]));
+				} else {
+					frames.endscreen(Color.RED, Integer.parseInt(split[1]));
+				}
+			}
+			// Spielfeld fuellen -> Nichts kann mehr gesetzt werden
+			for (int i = 0; i < matchfield.length; i++) {
+				if (matchfield[i] == null) {
+					matchfield[i] = "Placeholder";
+				}
+			}
+		}
+	}
+
+	public boolean getBotStatus() {
+		return bot;
+	}
+
+	public void setBot(boolean boo) {
+		bot = boo;
 	}
 
 	public void reset() {
 		matchfield = new String[9];
 		player = 0;
 	}
-	
+
 	private String checkWin() {
 		for (int i = 0; i < 8; i++) {
 			String temp = null;
@@ -88,23 +131,23 @@ public class Game {
 			}
 		}
 
-		if(isMatchfieldFull()) {
+		if (isMatchfieldFull()) {
 			System.out.println("Keiner hat gewonnen");
 			return "draw";
 		} else {
 			return null;
 		}
-		
+
 	}
-	
+
 	private boolean isMatchfieldFull() {
 		int counter = 0;
-		for(int i = 0; i < 9; i++) {
-			if(matchfield[i] != null) {
+		for (int i = 0; i < 9; i++) {
+			if (matchfield[i] != null) {
 				counter++;
 			}
 		}
-		if(counter == 9) {
+		if (counter == 9) {
 			return true;
 		} else {
 			return false;

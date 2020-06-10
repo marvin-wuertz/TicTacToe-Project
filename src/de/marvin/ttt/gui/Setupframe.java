@@ -53,11 +53,13 @@ public class Setupframe implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		 if(e.getSource() == twoPlayerButton) {
+			 	frameInstance.setBot(false);
 				frameInstance.playScene(1);
 			} else if(e.getSource() == onlineButton) {
 				JOptionPane.showMessageDialog(frameInstance.getFrame(), "Coming Soon");
 			} else if(e.getSource() == botButton) {
-				JOptionPane.showMessageDialog(frameInstance.getFrame(), "Coming Soon");
+				frameInstance.setBot(true);
+				frameInstance.playScene(1);
 			}
 	}
 	
